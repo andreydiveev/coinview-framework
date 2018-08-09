@@ -105,21 +105,19 @@ trait DeadLetterExchangeTrait
                         $this->consumerOptions['qos']['global']
                     );
             }
-        }
 
-        list($queueName, , ) = $this->channel
-            ->queue_declare(
-                $this->dlxQueueOptions['name'],
-                $this->dlxQueueOptions['passive'],
-                $this->dlxQueueOptions['durable'],
-                $this->dlxQueueOptions['exclusive'],
-                $this->dlxQueueOptions['auto_delete'],
-                $this->dlxQueueOptions['nowait'],
-                $this->dlxQueueOptions['arguments'],
-                $this->dlxQueueOptions['ticket']
-            );
+            list($queueName, , ) = $this->channel
+                ->queue_declare(
+                    $this->dlxQueueOptions['name'],
+                    $this->dlxQueueOptions['passive'],
+                    $this->dlxQueueOptions['durable'],
+                    $this->dlxQueueOptions['exclusive'],
+                    $this->dlxQueueOptions['auto_delete'],
+                    $this->dlxQueueOptions['nowait'],
+                    $this->dlxQueueOptions['arguments'],
+                    $this->dlxQueueOptions['ticket']
+                );
 
-        if (isset($this->dlxExchangeOptions['name'])) {
             if (is_array($this->routingKey)) {
                 foreach ($this->routingKey as $rk) {
                     $this->channel->queue_bind($queueName, $this->dlxExchangeOptions['name'], $rk);
